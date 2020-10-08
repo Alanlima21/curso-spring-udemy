@@ -2,6 +2,8 @@ package com.alanlima.cursospring.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -32,6 +35,9 @@ public class Pedido implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens = new HashSet<>();
+	
 	public Pedido() {
 
 	}
@@ -84,6 +90,10 @@ public class Pedido implements Serializable {
 		this.pagamento = pagamento;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

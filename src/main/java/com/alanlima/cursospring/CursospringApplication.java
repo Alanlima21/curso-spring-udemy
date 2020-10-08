@@ -13,6 +13,7 @@ import com.alanlima.cursospring.domain.Cidade;
 import com.alanlima.cursospring.domain.Cliente;
 import com.alanlima.cursospring.domain.Endereco;
 import com.alanlima.cursospring.domain.Estado;
+import com.alanlima.cursospring.domain.ItemPedido;
 import com.alanlima.cursospring.domain.Pagamento;
 import com.alanlima.cursospring.domain.PagamentoComBoleto;
 import com.alanlima.cursospring.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.alanlima.cursospring.repositories.CidadeRepository;
 import com.alanlima.cursospring.repositories.ClienteRepository;
 import com.alanlima.cursospring.repositories.EnderecoRepository;
 import com.alanlima.cursospring.repositories.EstadoRepository;
+import com.alanlima.cursospring.repositories.ItemPedidoRepository;
 import com.alanlima.cursospring.repositories.PagamentoRepository;
 import com.alanlima.cursospring.repositories.PedidoRepository;
 import com.alanlima.cursospring.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class CursospringApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringApplication.class, args);
@@ -113,6 +117,21 @@ public class CursospringApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 200.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
 	}
 
 }
